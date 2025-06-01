@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibe Greeting Card</title>
+    <title>Minimal Vibe Greeting Card</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom font import */
@@ -11,53 +11,71 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+        /* Custom style to hide input after typing */
+        .hidden-input-container {
+            position: fixed; /* Position at the bottom */
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            z-index: 10; /* Ensure it's above other content */
+            transition: opacity 0.3s ease-in-out;
+        }
+        .hidden-input-container.hidden {
+            opacity: 0;
+            pointer-events: none; /* Disable interaction when hidden */
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center p-4">
-    <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl max-w-md w-full text-center transform transition-all duration-300 hover:scale-105">
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Create Your Vibe Card!</h1>
+<body class="bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center p-4 overflow-hidden">
 
-        <div class="mb-8">
-            <input
-                type="text"
-                id="messageInput"
-                placeholder="Type your message here..."
-                class="w-full p-3 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-lg text-gray-700 placeholder-gray-400 transition-colors duration-200"
-                maxlength="50"
-                oninput="updateGreeting()"
-            />
-        </div>
+    <div
+        id="greetingDisplay"
+        class="flex-grow flex items-center justify-center text-white text-6xl md:text-8xl lg:text-9xl font-extrabold text-center break-words leading-none p-4"
+        style="min-height: 100vh; width: 100vw;"
+    >
+        Hello Vibe Coder!
+    </div>
 
-        <div
-            id="greetingDisplay"
-            class="min-h-[100px] bg-purple-100 text-purple-800 text-2xl md:text-3xl font-semibold p-6 rounded-lg flex items-center justify-center break-words overflow-hidden shadow-inner transition-all duration-300"
-        >
-            Hello Vibe Coder!
-        </div>
-
-        <p class="text-gray-600 text-sm mt-6">
-            (Your message will appear above. Try typing something!)
-        </p>
+    <div id="inputContainer" class="hidden-input-container">
+        <input
+            type="text"
+            id="messageInput"
+            placeholder="Type your message here and press Enter..."
+            class="w-full max-w-lg p-3 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-lg text-gray-700 placeholder-gray-400 transition-colors duration-200"
+        />
     </div>
 
     <script>
         /**
-         * Function to update the greeting message displayed on the card.
+         * Function to update the greeting message displayed on the screen.
          * It takes the value from the input field and displays it.
          */
         function updateGreeting() {
             const messageInput = document.getElementById('messageInput');
             const greetingDisplay = document.getElementById('greetingDisplay');
-            const message = messageInput.value.trim(); // Get input value and remove leading/trailing spaces
+            const inputContainer = document.getElementById('inputContainer');
+            const message = messageInput.value.trim();
 
-            // If the message is empty, display a default placeholder.
-            // Otherwise, display the user's message.
             if (message === '') {
                 greetingDisplay.textContent = 'Hello Vibe Coder!';
+                inputContainer.classList.remove('hidden'); // Show input if message is empty
             } else {
                 greetingDisplay.textContent = message;
+                inputContainer.classList.add('hidden'); // Hide input once message is entered
             }
         }
+
+        // Event listener for the input field to detect 'Enter' key press
+        document.getElementById('messageInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                updateGreeting();
+                event.preventDefault(); // Prevent default form submission behavior
+            }
+        });
 
         // Initial call to set the default greeting when the page loads
         window.onload = updateGreeting;
