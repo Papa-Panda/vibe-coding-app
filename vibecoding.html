@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Greeting Card</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl max-w-md w-full text-center transform transition-all duration-300 hover:scale-105">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Create Your Vibe Card!</h1>
+
+        <div class="mb-8">
+            <input
+                type="text"
+                id="messageInput"
+                placeholder="Type your message here..."
+                class="w-full p-3 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-lg text-gray-700 placeholder-gray-400 transition-colors duration-200"
+                maxlength="50"
+                oninput="updateGreeting()"
+            />
+        </div>
+
+        <div
+            id="greetingDisplay"
+            class="min-h-[100px] bg-purple-100 text-purple-800 text-2xl md:text-3xl font-semibold p-6 rounded-lg flex items-center justify-center break-words overflow-hidden shadow-inner transition-all duration-300"
+        >
+            Hello Vibe Coder!
+        </div>
+
+        <p class="text-gray-600 text-sm mt-6">
+            (Your message will appear above. Try typing something!)
+        </p>
+    </div>
+
+    <script>
+        /**
+         * Function to update the greeting message displayed on the card.
+         * It takes the value from the input field and displays it.
+         */
+        function updateGreeting() {
+            const messageInput = document.getElementById('messageInput');
+            const greetingDisplay = document.getElementById('greetingDisplay');
+            const message = messageInput.value.trim(); // Get input value and remove leading/trailing spaces
+
+            // If the message is empty, display a default placeholder.
+            // Otherwise, display the user's message.
+            if (message === '') {
+                greetingDisplay.textContent = 'Hello Vibe Coder!';
+            } else {
+                greetingDisplay.textContent = message;
+            }
+        }
+
+        // Initial call to set the default greeting when the page loads
+        window.onload = updateGreeting;
+    </script>
+</body>
+</html>
